@@ -1,90 +1,102 @@
-#!/usr/bin/env node
+const { Op, fn, col, where } = require("sequelize");
+const Log = require("../models/log.model");
+const transformLogs = require("../utils/logs.transformer");
 
-/**
- * Module dependencies
- */
+exports.getLogs = async (req, res) => {
+  try {
+    let whereClause = {};
 
-const http = require("http");
-const debug = require("debug")("project:server");
+    /* -------------------- Device filter -------------------- */
 
-const app = require("../app");
+    if (req.query.deviceId) {
+      whereClause[Op.and] = whereClause[Op.and] || [];
 
-/**
- * Get port from environment and store in Express
- */
+      whereClause[Op.and].push(
+        where(fn("LOWER", col("deviceId")), {
+          [Op.like]: `%${req.query.deviceId.toLowerCase()}%`,
+        })
+      );
+    }
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+    /* -------------------- Category filter -------------------- */
 
-/**
- * Create HTTP server
- */
+    if (req.query.category) {
+      whereClause[Op.and] = whereClause[Op.and] || [];
 
-const server = http.createServer(app);
+      whereClause[Op.and].push(
+        where(fn("LOWER", col("category")), {
+          [Op.like]: `%${req.query.category.toLowerCase()}%`,
+        })
+      );
+    }
 
-/**
- * Listen on provided port, on all network interfaces
- */
+    /* -------------------- Description filter -------------------- */
 
-server.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`);
-});
+    if (req.query.description) {
+      whereClause[Op.and] = whereClause[Op.and] || [];
 
-server.on("error", onError);
-server.on("listening", onListening);
+      whereClause[Op.and].push(
+        where(fn("LOWER", col("description")), {
+          [Op.like]: `%${req.query.description.toLowerCase()}%`,
+        })
+      );
+    }
 
-/**
- * Normalize a port into a number, string, or false
- */
+    /* -------------------- Date filter -------------------- */
 
-function normalizePort(val) {
-  const port = parseInt(val, 10);
+    if (req.query.fromDateTime || req.query.toDateTime) {
+      whereClause.date = {};
 
-  if (isNaN(port)) {
-    return val; // named pipe
+      if (req.query.fromDateTime) {
+        whereClause.date[Op.gte] = new Date(req.query.fromDateTime);
+      }
+
+      if (req.query.toDateTime) {
+        whereClause.date[Op.lte] = new Date(req.query.toDateTime);
+      }
+    }
+
+    /* -------------------- Sorting -------------------- */
+
+    let orderClause;
+
+    if (req.query.sortBy && req.query.sortOrder) {
+      orderClause = [
+        [req.query.sortBy, req.query.sortOrder.toUpperCase()],
+      ];
+    }
+
+    /* -------------------- Query database -------------------- */
+
+    const logs = await Log.findAll({
+      where: whereClause,
+      order: orderClause,
+    });
+
+    /* -------------------- Render page -------------------- */
+
+    res.render("index", {
+      title: "Logs",
+      logs: transformLogs(logs),
+
+      selectedFrom: req.query.fromDateTime || "",
+      selectedTo: req.query.toDateTime || "",
+
+      selectedDeviceId: req.query.deviceId || "",
+      selectedCategory: req.query.category || "",
+      selectedDescription: req.query.description || "",
+
+      selectedSort: req.query.sortBy || "",
+      selectedOrder: req.query.sortOrder || "",
+    });
+
+  } catch (error) {
+    console.error("Error fetching logs:", error);
+
+    res.render("index", {
+      title: "Logs",
+      logs: [],
+      error: error.message,
+    });
   }
-
-  if (port >= 0) {
-    return port; // port number
-  }
-
-  return false;
-}
-
-/**
- * Event listener for HTTP server "error" event
- */
-
-function onError(error) {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-
-  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
-
-  switch (error.code) {
-    case "EACCES":
-      console.error(`${bind} requires elevated privileges`);
-      process.exit(1);
-      break;
-
-    case "EADDRINUSE":
-      console.error(`${bind} is already in use`);
-      process.exit(1);
-      break;
-
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event
- */
-
-function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-
-  debug(`Listening on ${bind}`);
-}
+};
