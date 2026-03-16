@@ -5,7 +5,9 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const hbs = require("hbs");
+const hbs = require('hbs');
+const authRouter = require('./routes/auth');
+
 
 require("dotenv").config();
 
@@ -40,7 +42,7 @@ app.use(express.static(path.join(__dirname, "public")));
 /* -------------------- Routes -------------------- */
 
 app.use("/", indexRouter);
-
+app.use('/auth', authRouter);
 /* -------------------- 404 handler -------------------- */
 
 app.use(function (req, res, next) {
