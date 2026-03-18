@@ -6,8 +6,6 @@ exports.getLogs = async (req, res) => {
   try {
     let whereClause = {};
 
-    /* -------------------- Device filter -------------------- */
-
     if (req.query.deviceId) {
       whereClause[Op.and] = whereClause[Op.and] || [];
 
@@ -17,8 +15,6 @@ exports.getLogs = async (req, res) => {
         })
       );
     }
-
-    /* -------------------- Category filter -------------------- */
 
     if (req.query.category) {
       whereClause[Op.and] = whereClause[Op.and] || [];
@@ -30,8 +26,6 @@ exports.getLogs = async (req, res) => {
       );
     }
 
-    /* -------------------- Description filter -------------------- */
-
     if (req.query.description) {
       whereClause[Op.and] = whereClause[Op.and] || [];
 
@@ -41,8 +35,6 @@ exports.getLogs = async (req, res) => {
         })
       );
     }
-
-    /* -------------------- Date filter -------------------- */
 
     if (req.query.fromDateTime || req.query.toDateTime) {
       whereClause.date = {};
@@ -56,8 +48,6 @@ exports.getLogs = async (req, res) => {
       }
     }
 
-    /* -------------------- Sorting -------------------- */
-
     let orderClause;
 
     if (req.query.sortBy && req.query.sortOrder) {
@@ -66,14 +56,10 @@ exports.getLogs = async (req, res) => {
       ];
     }
 
-    /* -------------------- Query database -------------------- */
-
     const logs = await Log.findAll({
       where: whereClause,
       order: orderClause,
     });
-
-    /* -------------------- Render page -------------------- */
 
     res.render("index", {
       title: "Logs",

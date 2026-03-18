@@ -1,27 +1,23 @@
 const express = require("express");
-const { Op, fn, col, where } = require("sequelize");
+const authMiddleware = require("../middleware/auth");
 
 const Log = require("../models/log.model");
-const transformLogs = require("../utils/logs.transformer");
 const logController = require("../controllers/log.controller");
 
 const router = express.Router();
 
-/* -------------------- Get logs -------------------- */
 
-router.get("/", async function (req, res) {
+router.get("/", authMiddleware, (req, res) => {
   logController.getLogs(req, res);
 });
 
-/* -------------------- Create page -------------------- */
 
-router.get("/create", function (req, res) {
+router.get("/create", authMiddleware, (req, res) => {
   res.render("create-log", { title: "Create Log" });
 });
 
-/* -------------------- Create log -------------------- */
 
-router.post("/create", async function (req, res) {
+router.post("/create", authMiddleware, async (req, res) => {
   const { date, deviceId, category, description } = req.body;
 
   try {

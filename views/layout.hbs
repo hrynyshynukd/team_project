@@ -5,9 +5,20 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
     />
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
+
+    {{#if user}}
+      <div class="header-bar">
+        <div class="header-right">
+          <span class="user-name">{{user.name}}</span>
+          <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+      </div>
+    {{/if}}
+
     {{{body}}}
+
   </body>
 </html>

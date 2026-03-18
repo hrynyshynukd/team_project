@@ -1,5 +1,3 @@
-/* -------------------- Transform logs for view -------------------- */
-
 function transformLogs(logs, locale = "uk-UA") {
   const options = {
     year: "numeric",

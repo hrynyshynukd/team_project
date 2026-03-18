@@ -1,8 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../db/db");
 
-/* -------------------- Log model -------------------- */
-
 const Log = sequelize.define("logs", {
   id: {
     type: Sequelize.INTEGER,

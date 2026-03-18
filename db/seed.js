@@ -36,4 +36,5 @@ async function seedDatabase(Log) {
       console.log("Seed data inserted");
     }
   }
+  
   module.exports = seedDatabase;
