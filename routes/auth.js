@@ -2,9 +2,10 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user.model");
+const logController = require("../controllers/dashboard/log.controller");
 
 const router = express.Router();
-
+const authMiddleware = require("../middleware/auth")
 
 router.get("/login", (req, res) => {
   const error = req.session.error;
@@ -96,12 +97,17 @@ router.post("/login", async (req, res) => {
       email: user.email,
     };
 
-    res.redirect("/");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error(error);
     req.session.error = "Something went wrong";
     res.redirect("/login");
   }
+});
+
+
+router.get("/dashboard", authMiddleware, (req, res) => {
+  logController.getLogs(req, res);
 });
 
 

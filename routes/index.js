@@ -2,13 +2,13 @@ const express = require("express");
 const authMiddleware = require("../middleware/auth");
 
 const Log = require("../models/log.model");
-const logController = require("../controllers/log.controller");
+const logController = require("../controllers/dashboard/log.controller");
 
 const router = express.Router();
 
 
 router.get("/", authMiddleware, (req, res) => {
-  logController.getLogs(req, res);
+  res.render("index", { title: "" });
 });
 
 
