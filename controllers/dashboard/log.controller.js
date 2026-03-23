@@ -1,6 +1,6 @@
 const { Op, fn, col, where } = require("sequelize");
-const Log = require("../models/log.model");
-const transformLogs = require("../utils/logs.transformer");
+const Log = require("../../models/log.model");
+const transformLogs = require("../../utils/logs.transformer");
 
 exports.getLogs = async (req, res) => {
   try {
@@ -61,7 +61,7 @@ exports.getLogs = async (req, res) => {
       order: orderClause,
     });
 
-    res.render("index", {
+    res.render("dashboard", {
       title: "Logs",
       logs: transformLogs(logs),
 
