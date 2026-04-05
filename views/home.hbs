@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    /* ГОЛОВНИЙ БЛОК */
+    .home-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      margin-left: 120px;
+      margin-top: 80px;
+    }
+
+    /* ВНУТРІШНІЙ КОНТЕНТ */
+    .home-content {
+      display: flex;
+      align-items: center;
+      gap: 120px;
+    }
+
+    /* КАРТИНКА */
+    .home-image {
+      width: 700px;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    /* ТЕКСТ */
+    .home-text {
+      width: 320px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="home-wrapper">
+
+    <div class="home-content">
+
+      <!-- КАРТИНКА -->
+      <img src="/images/home.jpg" class="home-image">
+
+      <!-- ТЕКСТ -->
+      <div class="home-text">
+
+        <h1>
+            {{#if user}}
+            Hi, {{user.name}}!
+            {{else}}
+            Welcome!
+            {{/if}}
+        </h1>
+
+        {{#if user}}
+            <p>Your dashboard is ready</p>
+            <a href="/dashboard" class="btn">Go to dashboard</a>
+        {{else}}
+            <p>Sign in to access your dashboard</p>
+            <a href="/login" class="btn">Login</a>
+        {{/if}}
+
+        </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

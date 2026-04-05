@@ -17,12 +17,18 @@ const seedDatabase = require("./db/seed");
 
 const app = express();
 
+/* -------------------- Handlebars helpers -------------------- */
+
 hbs.registerHelper("ifEquals", function (arg1, arg2, options) {
   return arg1 === arg2 ? options.fn(this) : options.inverse(this);
 });
 
+/* -------------------- View engine -------------------- */
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+
+/* -------------------- Middleware -------------------- */
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -38,17 +44,31 @@ app.use(
   })
 );
 
+/* -------------------- Global user -------------------- */
+
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
+/* -------------------- ROOT REDIRECT -------------------- */
+
+app.get("/", (req, res) => {
+  res.redirect("/home");
+});
+
+/* -------------------- Routes -------------------- */
+
 app.use("/", authRouter);
 app.use("/", indexRouter);
+
+/* -------------------- 404 handler -------------------- */
 
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+/* -------------------- Error handler -------------------- */
 
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
@@ -57,6 +77,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+/* -------------------- Database -------------------- */
 
 sequelize
   .sync({ force: false })

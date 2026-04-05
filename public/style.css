@@ -186,3 +186,52 @@ html, body {
   font-size: 12px;
   margin-bottom: 6px;
 }
+
+/* HOME PAGE */
+
+.home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+
+  height: calc(100vh - 80px);
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.home-left img {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+
+  border-radius: 20px;
+}
+
+.home-right {
+  max-width: 300px;
+}
+
+.home-right h1 {
+  margin-bottom: 10px;
+}
+
+.home-right p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+
+  background-color: #2d6cdf;
+  color: white;
+  text-decoration: none;
+
+  border-radius: 8px;
+}
+
+.home-btn:hover {
+  background-color: #1b4fbf;
+}

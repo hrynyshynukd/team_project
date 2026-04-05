@@ -5,6 +5,7 @@ const User = require("../models/user.model");
 
 const router = express.Router();
 
+/* -------------------- LOGIN PAGE -------------------- */
 
 router.get("/login", (req, res) => {
   const error = req.session.error;
@@ -13,6 +14,10 @@ router.get("/login", (req, res) => {
   req.session.error = null;
   req.session.success = null;
 
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
+
   res.render("login", {
     title: "Login",
     error,
@@ -20,11 +25,16 @@ router.get("/login", (req, res) => {
   });
 });
 
+/* -------------------- REGISTER PAGE -------------------- */
 
 router.get("/register", (req, res) => {
   const error = req.session.error;
 
   req.session.error = null;
+
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
 
   res.render("register", {
     title: "Register",
@@ -32,6 +42,7 @@ router.get("/register", (req, res) => {
   });
 });
 
+/* -------------------- REGISTER -------------------- */
 
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -66,6 +77,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+/* -------------------- LOGIN -------------------- */
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -96,7 +108,7 @@ router.post("/login", async (req, res) => {
       email: user.email,
     };
 
-    res.redirect("/");
+    res.redirect("/dashboard");
   } catch (error) {
     console.error(error);
     req.session.error = "Something went wrong";
@@ -104,10 +116,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/* -------------------- LOGOUT -------------------- */
 
 router.get("/logout", (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/login");
+    res.redirect("/home");
   });
 });
 

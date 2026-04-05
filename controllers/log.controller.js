@@ -61,7 +61,7 @@ exports.getLogs = async (req, res) => {
       order: orderClause,
     });
 
-    res.render("index", {
+    res.render("dashboard", {
       title: "Logs",
       logs: transformLogs(logs),
 
@@ -79,7 +79,7 @@ exports.getLogs = async (req, res) => {
   } catch (error) {
     console.error("Error fetching logs:", error);
 
-    res.render("index", {
+    res.render("dashboard", {
       title: "Logs",
       logs: [],
       error: error.message,
