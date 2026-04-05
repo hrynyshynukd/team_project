@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{title}}</title>
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body class="auth-page">
+
+  <div class="auth-container">
+    <h1>Login</h1>
+
+    <form method="POST" action="/login" class="auth-form">
+
+      <label>
+        Email
+        <input type="text" name="email" required />
+      </label>
+
+      <label>
+        Password
+        <input type="password" name="password" required />
+      </label>
+
+      {{#if error}}
+        <div class="auth-error">
+          {{error}}
+        </div>
+      {{/if}}
+
+      {{#if success}}
+        <div class="auth-success">
+          {{success}}
+        </div>
+      {{/if}}
+
+      <button type="submit" class="auth-button">
+        Login
+      </button>
+
+    </form>
+
+    <p class="auth-link">
+      Don't have an account?
+      <a href="/register">Register</a>
+    </p>
+  </div>
+
+</body>
+</html>
