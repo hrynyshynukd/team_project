@@ -61,7 +61,7 @@ cd team_project
 ```bash
 .env
 ```
-Та додати туди свій ключ (приклад):
+  Та додати туди свій ключ (приклад):
 
  ```bash
 JWT_SECRET=your_key
