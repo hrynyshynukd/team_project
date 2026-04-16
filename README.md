@@ -57,13 +57,11 @@ git clone https://github.com/hrynyshynukd/team_project.git
 cd team_project
 ```
 
-2. Додати у корінь проєкту файл з назвою:
+2. Додати у корінь проєкту файл з назвою .env та власним ключем (приклад):
 ```bash
 .env
 ```
-  Та додати туди свій ключ (приклад):
-
- ```bash
+```bash
 JWT_SECRET=your_key
 ```
 
