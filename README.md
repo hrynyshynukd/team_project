@@ -40,23 +40,33 @@
 
 1. Клонувати репозиторій:
 ```bash
-git clone https://github.com/hrynyshynukd/project.git
+git clone https://github.com/hrynyshynukd/team_project.git
 ```
 ```bash
-cd project
+cd team_project
 ```
 
-2. Встановити залежності:
+2. Додати у корінь проєкту файл з назвою:
+```bash
+.env
+```
+    Та додати туди свій ключ (приклад):
+
+ ```bash
+JWT_SECRET=your_key
+```
+
+3. Встановити залежності:
 ```bash
 npm install
 ```
 
-3. Запустити застосунок:
+4. Запустити застосунок:
 ```bash
 npm start
 ```
 
-4. Відкрити браузер і перейти за посиланням:
+5. Відкрити браузер і перейти за посиланням:
 ```bash
 http://localhost:3000
 ```
